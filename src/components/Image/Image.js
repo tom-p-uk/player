@@ -13,7 +13,8 @@ const Image = props => {
     const checkVisibility = () => {
         if (isVisible) return;
 
-        const { innerHeight } = window;
+        const { innerHeight, innerWidth } = window;
+
         const {
             top,
             left,
@@ -24,7 +25,7 @@ const Image = props => {
         if (
             top <= innerHeight &&
             bottom >= 0 &&
-            left <= innerHeight &&
+            left <= innerWidth &&
             right >= 0
         ) {
             setIsVisible(true);
@@ -69,6 +70,7 @@ const Image = props => {
         <div className={imageClassName} ref={imageElementRef}>
             {isVisible && (
                 <img
+                    data-test-id={`image-${props.id}`}
                     className={styles.imageImg}
                     src={url}
                     alt={alt}
