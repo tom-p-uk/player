@@ -1,0 +1,35 @@
+:root {
+    --playback-button-size: 6rem;
+}
+
+.play-pause-button {
+    background: transparent;
+    border: none;
+    outline: none;
+    border-radius: 0;
+    -webkit-appearance: none;
+    cursor: pointer;
+    position: absolute;
+    top: calc(50% - (var(--playback-button-size) / 2));
+    left: calc(50% - (var(--playback-button-size) / 2));
+    width: var(--playback-button-size);
+    height: var(--playback-button-size);
+    color: white;
+    opacity: 0.75;
+    transition: opacity 150ms;
+    z-index: 1;
+}
+
+.play-pause-button-hidden {
+    opacity: 0;
+}
+
+.play-pause-button:hover {
+    opacity: 1;
+}
+
+.icon {
+    transform: scale(1.2);
+    fill: currentColor;
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+}

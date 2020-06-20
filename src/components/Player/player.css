@@ -1,0 +1,8 @@
+.player {
+    position: relative;
+    padding-top: 56.25%;
+}
+
+.player *:focus {
+    outline: none;
+}
