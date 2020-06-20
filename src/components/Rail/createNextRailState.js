@@ -51,7 +51,7 @@ export const modelFactory = () => ({
         let offset = this.tileWidths[prevIndex];
 
         while (offset < this.viewportWidth) {
-            prevIndex--
+            prevIndex--;
             offset += this.tileWidths[prevIndex];
         }
 

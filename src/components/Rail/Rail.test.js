@@ -7,45 +7,48 @@ import { expect } from 'chai';
 import { spy, stub } from 'sinon';
 
 describe('<Rail />', () => {
-  const data = railsData[0];
-  let createNextRailStateSpy;
+    const data = railsData[0];
+    let createNextRailStateSpy;
 
-  before(() => {
-    createNextRailStateSpy = spy(createNextRailState, 'default');
-    stub(window, 'getComputedStyle').returns({ width: 90, marginRight: 10 });
-  });
+    before(() => {
+        createNextRailStateSpy = spy(createNextRailState, 'default');
+        stub(window, 'getComputedStyle').returns({
+            width: 90,
+            marginRight: 10
+        });
+    });
 
-  beforeEach(() => {
-    createNextRailStateSpy.resetHistory();
-  });
+    beforeEach(() => {
+        createNextRailStateSpy.resetHistory();
+    });
 
-  after(() => {
-    window.getComputedStyle.restore();
-  });
+    after(() => {
+        window.getComputedStyle.restore();
+    });
 
-  it('calls createNextRailState with correct args when right button is clicked', () => {
-    const wrapper =  mount(<Rail { ...data } />);
+    it('calls createNextRailState with correct args when right button is clicked', () => {
+        const wrapper = mount(<Rail {...data} />);
 
-    createNextRailStateSpy.resetHistory();
+        createNextRailStateSpy.resetHistory();
 
-    wrapper.find('[data-test-id="rail-button-right"]').simulate('click');
+        wrapper.find('[data-test-id="rail-button-right"]').simulate('click');
 
-    const [prevState, nextState] = createNextRailStateSpy.args[0];
+        const [prevState, nextState] = createNextRailStateSpy.args[0];
 
-    expect(nextState.index).to.be.above(prevState.index);
-  });
+        expect(nextState.index).to.be.above(prevState.index);
+    });
 
-  it('calls createNextRailState with correct args when left button is clicked', () => {
-    const wrapper =  mount(<Rail { ...data } />);
+    it('calls createNextRailState with correct args when left button is clicked', () => {
+        const wrapper = mount(<Rail {...data} />);
 
-    wrapper.find('[data-test-id="rail-button-right"]').simulate('click');
+        wrapper.find('[data-test-id="rail-button-right"]').simulate('click');
 
-    createNextRailStateSpy.resetHistory();
+        createNextRailStateSpy.resetHistory();
 
-    wrapper.find('[data-test-id="rail-button-left"]').simulate('click');
+        wrapper.find('[data-test-id="rail-button-left"]').simulate('click');
 
-    const [prevState, nextState] = createNextRailStateSpy.args[0];
+        const [prevState, nextState] = createNextRailStateSpy.args[0];
 
-    expect(nextState.index).to.be.below(prevState.index);
-  });
+        expect(nextState.index).to.be.below(prevState.index);
+    });
 });
