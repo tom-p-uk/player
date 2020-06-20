@@ -1,6 +1,6 @@
 import createStateFactory from '../../shared/util/createStateFactory';
 
-const createNextRailState = createStateFactory(() => ({
+export const modelFactory = () => ({
     index: 0,
     tileCount: -1,
     tileWidths: [],
@@ -51,12 +51,14 @@ const createNextRailState = createStateFactory(() => ({
         let offset = this.tileWidths[prevIndex];
 
         while (offset < this.viewportWidth) {
-            prevIndex++;
+            prevIndex--
             offset += this.tileWidths[prevIndex];
         }
 
         return prevIndex;
     }
-}));
+});
+
+const createNextRailState = createStateFactory(modelFactory);
 
 export default createNextRailState;
