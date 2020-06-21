@@ -94,10 +94,12 @@ function Rail({ id, title, tiles, activeTileId }) {
                 ))}
             </div>
             <button
+                data-test-id="rail-button-left"
                 className={styles.railButtonLeft}
                 onClick={handleButtonLeftClick}
             />
             <button
+                data-test-id="rail-button-right"
                 className={styles.railButtonRight}
                 onClick={handleButtonRightClick}
             />
