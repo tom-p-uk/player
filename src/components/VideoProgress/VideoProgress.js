@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styles from './videoProgress.css';
-import { getPercentage } from './getPercentage';
-import { convertPercentageToNumber } from './convertPercentageToNumber';
-import { getFormattedTime } from './getFormattedTime';
+import { getPercentage } from './utils/getPercentage';
+import { convertPercentageToNumber } from './utils/convertPercentageToNumber';
+import { getFormattedTime } from './utils/getFormattedTime';
 
 export const VideoProgress = ({
     currentTime,
@@ -26,8 +26,9 @@ export const VideoProgress = ({
         <div
             className={`${styles.videoProgressWrapper} ${isUiHidden &&
                 styles.hidden}`}
+            data-test-id="video-progress-wrapper"
         >
-            <span className={styles.currentTime}>
+            <span className={styles.currentTime} data-test-id="current-time">
                 {getFormattedTime(currentTime)}
             </span>
             <input
@@ -46,7 +47,7 @@ export const VideoProgress = ({
                     );
                 }}
             />
-            <span className={styles.duration}>
+            <span className={styles.duration} data-test-id="duration">
                 {getFormattedTime(duration)}
             </span>
         </div>
