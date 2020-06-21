@@ -9,12 +9,15 @@ const Video = props => {
 
     return (
         <video
+            data-test-id="video-element"
             tabIndex={0}
             className={styles.video}
             src={url}
             onKeyPress={props.onKeyPress}
             onMouseOver={props.onMouseOver}
             onMouseLeave={props.onMouseLeave}
+            onTimeUpdate={props.onTimeUpdate}
+            onLoadedData={props.onLoadedData}
             ref={props.setRef}
         />
     );
