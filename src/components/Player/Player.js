@@ -13,6 +13,7 @@ const Player = () => {
     const [status, setStatus] = useState(VideoStatus.PAUSED);
     const [isHover, setIsHover] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const throttledHandleTimeUpdate = throttle(event => {
         setCurrentTime(event.target.currentTime);
@@ -24,6 +25,11 @@ const Player = () => {
                 'timeupdate',
                 throttledHandleTimeUpdate
             );
+
+            videoElementRef.current.addEventListener(
+                'loadeddata',
+                handleVideoLoad
+            );
         }
 
         return () => {
@@ -31,8 +37,17 @@ const Player = () => {
                 'timeupdate',
                 throttledHandleTimeUpdate
             );
+
+            videoElementRef.current.removeEventListener(
+                'loadeddata',
+                handleVideoLoad
+            );
         };
     }, []);
+
+    const handleVideoLoad = () => {
+        setIsLoaded(true);
+    };
 
     const handlePlayPauseClick = () => {
         switch (status) {
@@ -93,11 +108,11 @@ const Player = () => {
                 duration={
                     videoElementRef && videoElementRef.current
                         ? videoElementRef.current.duration
-                        : -1
+                        : 0
                 }
                 skipToTime={skipToTime}
                 isUiHidden={isUiHidden}
-                innerWidth={window.innerWidth}
+                isLoaded={isLoaded}
             />
         </div>
     );

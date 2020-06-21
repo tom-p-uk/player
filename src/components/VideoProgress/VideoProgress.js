@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styles from './videoProgress.css';
 import { getPercentage } from './getPercentage';
 import { convertPercentageToNumber } from './convertPercentageToNumber';
+import { getFormattedTime } from './getFormattedTime';
 
 export const VideoProgress = ({
     currentTime,
     duration,
-    skipToTime = () => null,
     isUiHidden,
-    innerWidth
+    isLoaded,
+    skipToTime
 }) => {
-    const [currentTimeAsPercentage, setCurrentTimeAsPercentage] = useState(-1);
+    if (!isLoaded) {
+        return null;
+    }
+
+    const [currentTimeAsPercentage, setCurrentTimeAsPercentage] = useState(0);
 
     useEffect(() => {
         setCurrentTimeAsPercentage(getPercentage(currentTime, duration));
@@ -19,32 +24,39 @@ export const VideoProgress = ({
 
     return (
         <div
-            className={styles.wrapper}
-            onClick={({ pageX }) => {
-                const percentage = getPercentage(pageX, window.innerWidth);
-                skipToTime(convertPercentageToNumber(percentage, duration));
-            }}
+            className={`${styles.videoProgressWrapper} ${isUiHidden &&
+                styles.hidden}`}
         >
-            <span
-                style={{
-                    color: 'white',
-                    transform: `translateX(${convertPercentageToNumber(
-                        currentTimeAsPercentage,
-                        innerWidth
-                    )}px)`
+            <span className={styles.currentTime}>
+                {getFormattedTime(currentTime)}
+            </span>
+            <input
+                className={styles.slider}
+                type="range"
+                min={0}
+                max={100}
+                value={currentTimeAsPercentage}
+                step={0.1}
+                onChange={event => {
+                    skipToTime(
+                        convertPercentageToNumber(
+                            parseFloat(event.target.value),
+                            duration
+                        )
+                    );
                 }}
-            >
-                |
+            />
+            <span className={styles.duration}>
+                {getFormattedTime(duration)}
             </span>
         </div>
     );
 };
 
 VideoProgress.propTypes = {
-    currentTime: PropTypes.string,
-    currentTimeFormatted: PropTypes.string,
+    currentTime: PropTypes.number,
     duration: PropTypes.number,
-    durationFormatted: PropTypes.number,
-    skipToTime: PropTypes.func,
-    innerWidth: PropTypes.number
+    isUiHidden: PropTypes.bool,
+    isLoaded: PropTypes.bool,
+    skipToTime: PropTypes.func
 };

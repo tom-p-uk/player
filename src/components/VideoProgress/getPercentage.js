@@ -1,5 +1,5 @@
 export const getPercentage = (num, total) => {
-    if (typeof num !== 'number' || typeof total !== 'number' || num > total) {
+    if (isNaN(parseFloat(num)) || isNaN(parseFloat(total)) || num > total) {
         return 0;
     }
 

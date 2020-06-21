@@ -1,7 +1,7 @@
 export const convertPercentageToNumber = (percentage, total) => {
     if (
-        typeof percentage !== 'number' ||
-        typeof total !== 'number' ||
+        isNaN(parseFloat(percentage)) ||
+        isNaN(parseFloat(total)) ||
         percentage > 100
     ) {
         return 0;
