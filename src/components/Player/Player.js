@@ -15,35 +15,9 @@ const Player = () => {
     const [currentTime, setCurrentTime] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const throttledHandleTimeUpdate = throttle(event => {
-        setCurrentTime(event.target.currentTime);
+    const handleTimeUpdateThrottled = throttle(event => {
+        event.target.currentTime && setCurrentTime(event.target.currentTime);
     }, 200);
-
-    useEffect(() => {
-        if (videoElementRef && videoElementRef.current) {
-            videoElementRef.current.addEventListener(
-                'timeupdate',
-                throttledHandleTimeUpdate
-            );
-
-            videoElementRef.current.addEventListener(
-                'loadeddata',
-                handleVideoLoad
-            );
-        }
-
-        return () => {
-            videoElementRef.current.removeEventListener(
-                'timeupdate',
-                throttledHandleTimeUpdate
-            );
-
-            videoElementRef.current.removeEventListener(
-                'loadeddata',
-                handleVideoLoad
-            );
-        };
-    }, []);
 
     const handleVideoLoad = () => {
         setIsLoaded(true);
@@ -93,10 +67,13 @@ const Player = () => {
     return (
         <div className={styles.player}>
             <Video
+                data-test-id="video"
                 setRef={videoElementRef}
                 onKeyPress={handleVideoKeyPress}
                 onMouseOver={handleVideoMouseOver}
                 onMouseLeave={handleVideoMouseLeave}
+                onLoadedData={handleVideoLoad}
+                onTimeUpdate={handleTimeUpdateThrottled}
             />
             <PlayPause
                 isPlaying={isPlaying}

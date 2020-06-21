@@ -42,7 +42,7 @@ describe('<VideoProgress />', () => {
         expect(parseFloat(inputValue)).to.equal(percentage);
     });
 
-    it('input onChange event handler triggers a call of `skipToTime` with argument derived from event object and `duration` prop', () => {
+    it('calls `skipToTime` with argument derived from event object and `duration` prop when onChange event handler fires', () => {
         const percentage = 75;
         const wrapper = shallow(<VideoProgress {...props} />);
         wrapper
