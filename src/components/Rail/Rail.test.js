@@ -4,15 +4,16 @@ import Rail from './Rail';
 import railsData from '../../../data/rails.json';
 import * as createNextRailState from './createNextRailState';
 import { expect } from 'chai';
-import { spy, stub } from 'sinon';
+import { createSandbox } from 'sinon';
 
 describe('<Rail />', () => {
+    const sandbox = createSandbox();
     const data = railsData[0];
     let createNextRailStateSpy;
 
     before(() => {
-        createNextRailStateSpy = spy(createNextRailState, 'default');
-        stub(window, 'getComputedStyle').returns({
+        createNextRailStateSpy = sandbox.spy(createNextRailState, 'default');
+        sandbox.stub(window, 'getComputedStyle').returns({
             width: 90,
             marginRight: 10
         });
@@ -23,7 +24,7 @@ describe('<Rail />', () => {
     });
 
     after(() => {
-        window.getComputedStyle.restore();
+        sandbox.restore();
     });
 
     it('calls createNextRailState with correct args when right button is clicked', () => {
